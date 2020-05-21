@@ -1,4 +1,8 @@
-def call(String mavenVersion, String javaVersion){
+import org.softsmithy.jenkinsfilelib.ProjectType
+
+def call(ProjectType projectType, String mavenVersion, String javaVersion){
+    def mavenArgs = projectType.isContainingJavaSourceFiles() ? "-Dmaven.test.failure.ignore=true" : "";
+
     pipeline {
         agent any
         triggers {
@@ -39,9 +43,11 @@ def call(String mavenVersion, String javaVersion){
                 steps {
                     sh 'mvn -Dmaven.test.failure.ignore=true clean install -DperformRelease=true'
                 }
-                post {
-                    success {
-                        junit 'target/surefire-reports/**/*.xml'
+                if (projectType.isContainingJavaSourceFiles()) {
+                    post {
+                        success {
+                            junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
+                        }
                     }
                 }
             }
@@ -54,9 +60,11 @@ def call(String mavenVersion, String javaVersion){
                 steps {
                     sh 'mvn -Dmaven.test.failure.ignore=true clean deploy -DperformRelease=true'
                 }
-                post {
-                    success {
-                        junit 'target/surefire-reports/**/*.xml'
+                if (projectType.isContainingJavaSourceFiles()) {
+                    post {
+                        success {
+                            junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
+                        }
                     }
                 }
             }
