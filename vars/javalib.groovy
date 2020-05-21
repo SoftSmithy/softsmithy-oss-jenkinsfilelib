@@ -27,10 +27,10 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 steps {
                     sh '''
                     echo "PATH = ${PATH}"
-                    echo "Java version: "
+                    echo 'Java version: '
                     java -version
                     echo "M2_HOME = ${M2_HOME}"
-                    echo "Maven version:"
+                    echo 'Maven version: '
                     mvn -v
                 '''
                 }
@@ -43,7 +43,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     }
                 }
                 steps {
-                    sh 'mvn ${mavenArgs} clean install'
+                    sh "mvn ${mavenArgs} clean install"
                 }
                 post {
                     success {
@@ -62,7 +62,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     not { expression { params.RELEASE } }
                 }
                 steps {
-                    sh 'mvn ${mavenArgs} clean deploy'
+                    sh "mvn ${mavenArgs} clean deploy"
                 }
                 post {
                     success {
@@ -82,8 +82,8 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
                 steps {
 //                 release {
-                    sh 'mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement}'
-                    sh 'mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -DpostReleaseGoals="deploy ${mavenArgs} -Dverbose=true'
+                    sh "mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement}"
+                    sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -DpostReleaseGoals=\"deploy ${mavenArgs} -Dverbose=true\""
 //                 }
                 }
             }
