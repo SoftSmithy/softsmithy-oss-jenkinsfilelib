@@ -1,4 +1,4 @@
-def call(ProjectType projectType, String mavenVersion, String javaVersion){
+def call(ProjectType projectType, String mavenVersion, String javaVersion) {
     def mavenArgs = projectType.isContainingJavaSourceFiles() ? "-Dmaven.test.failure.ignore=true" : "";
 
     pipeline {
@@ -18,12 +18,12 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion){
             booleanParam(name: "RELEASE",
                     description: "Build a release from current commit.",
                     defaultValue: false)
-            string(name:"versionDigitToIncrement",
-                    description:"Which digit to increment. Starts from zero.",
+            string(name: "versionDigitToIncrement",
+                    description: "Which digit to increment. Starts from zero.",
                     defaultValue: "1")
         }
         stages {
-            stage ('Initialize') {
+            stage('Initialize') {
                 steps {
                     sh '''
                     echo "PATH = ${PATH}"
@@ -32,7 +32,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion){
                 }
             }
 
-            stage ('Build non-master branches') {
+            stage('Build non-master branches') {
                 when {
                     not {
                         branch 'master'
@@ -41,16 +41,16 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion){
                 steps {
                     sh 'mvn -Dmaven.test.failure.ignore=true clean install -DperformRelease=true'
                 }
-                if (projectType.isContainingJavaSourceFiles()) {
-                    post {
-                        success {
+                post {
+                    success {
+                        if (projectType.isContainingJavaSourceFiles()) {
                             junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
                         }
                     }
                 }
             }
 
-            stage ('Build & deploy master branch') {
+            stage('Build & deploy master branch') {
                 when {
                     branch 'master'
                     not { expression { params.RELEASE } }
@@ -58,16 +58,16 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion){
                 steps {
                     sh 'mvn -Dmaven.test.failure.ignore=true clean deploy -DperformRelease=true'
                 }
-                if (projectType.isContainingJavaSourceFiles()) {
-                    post {
-                        success {
+                post {
+                    success {
+                        if (projectType.isContainingJavaSourceFiles()) {
                             junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
                         }
                     }
                 }
             }
 
-            stage ('Release') {
+            stage('Release') {
                 when {
                     branch 'master'
                     expression { params.RELEASE }
@@ -82,4 +82,5 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion){
         }
 
     }
+
 }
