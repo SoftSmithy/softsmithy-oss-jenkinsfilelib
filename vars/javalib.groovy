@@ -1,5 +1,3 @@
-import org.softsmithy.jenkinsfilelib.ProjectType
-
 def call(ProjectType projectType, String mavenVersion, String javaVersion){
     def mavenArgs = projectType.isContainingJavaSourceFiles() ? "-Dmaven.test.failure.ignore=true" : "";
 

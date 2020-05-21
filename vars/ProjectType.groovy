@@ -1,5 +1,3 @@
-package org.softsmithy.jenkinsfilelib
-
 enum ProjectType {
         JAVA_LIB(true),
         POM(false),
