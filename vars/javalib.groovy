@@ -1,5 +1,5 @@
 def call(ProjectType projectType, String mavenVersion, String javaVersion) {
-    def mavenArgs = projectType.isContainingJavaSourceFiles() ? "-Dmaven.test.failure.ignore=true" : "";
+    def mavenArgs = projectType.isContainingJavaSourceFiles() ? "-Dmaven.test.failure.ignore=true" : ""
 
     pipeline {
         agent any
@@ -43,8 +43,10 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
                 post {
                     success {
-                        if (projectType.isContainingJavaSourceFiles()) {
-                            junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
+                        script {
+                            if (projectType.isContainingJavaSourceFiles()) {
+                                junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
+                            }
                         }
                     }
                 }
@@ -60,8 +62,10 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
                 post {
                     success {
-                        if (projectType.isContainingJavaSourceFiles()) {
-                            junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
+                        script {
+                            if (projectType.isContainingJavaSourceFiles()) {
+                                junit allowEmptyResults: true, 'target/surefire-reports/**/*.xml'
+                            }
                         }
                     }
                 }
