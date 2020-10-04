@@ -36,10 +36,13 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
             }
 
-            stage('Build non-master branches') {
+            stage('Build non-master/-support branches') {
                 when {
                     not {
-                        branch 'master'
+                        anyOf{
+                            branch 'master'
+                            branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
+                        }
                     }
                 }
                 steps {
