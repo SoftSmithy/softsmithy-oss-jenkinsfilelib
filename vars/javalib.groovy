@@ -18,9 +18,18 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
             booleanParam(name: "RELEASE",
                     description: "Build a release from current commit.",
                     defaultValue: false)
+            booleanParam(name: "HOTFIX",
+                    description: "Build a hotfix from current commit.",
+                    defaultValue: false)
             string(name: "versionDigitToIncrement",
-                    description: "Which digit to increment. Starts from zero.",
+                    description: "Which digit to increment. Starts from zero. (For hotfix use: hotfixVersion)",
                     defaultValue: "1")
+            string(name: "hotfixFromBranch",
+                    description: "Branch to start hotfix (master or one of the support branches).",
+                    defaultValue: "support/release-")
+            string(name: "hotfixVersion",
+                    description: "The hotfix version.",
+                    defaultValue: "")
         }
         stages {
             stage('Initialize') {
@@ -90,6 +99,19 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
 //                 release {
                     sh "mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement}"
                     sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -DpostReleaseGoals=\"deploy ${mavenArgs} -Dverbose=true\""
+//                 }
+                }
+            }
+
+            stage('Hotfix') {
+                when {
+                    branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
+                    expression { params.HOTFIX }
+                }
+                steps {
+//                 release {
+                    sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion}"
+                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixVersion} -DpostHotfixGoals=\"deploy ${mavenArgs} -Dverbose=true\""
 //                 }
                 }
             }
