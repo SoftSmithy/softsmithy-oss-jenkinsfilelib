@@ -56,9 +56,12 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
             }
 
-            stage('Build & deploy master branch') {
+            stage('Build & deploy master & support branch') {
                 when {
-                    branch 'master'
+                    anyOf{
+                        branch 'master'
+                        branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
+                    }
                     not { expression { params.RELEASE } }
                 }
                 steps {
