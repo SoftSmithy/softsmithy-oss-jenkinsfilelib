@@ -111,7 +111,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 steps {
 //                 release {
                     sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion}"
-                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixVersion} -DpostHotfixGoals=\"deploy ${mavenArgs} -Dverbose=true\""
+                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DpostHotfixGoals=\"deploy ${mavenArgs} -Dverbose=true\""
 //                 }
                 }
             }
