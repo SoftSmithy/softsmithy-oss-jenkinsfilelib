@@ -70,11 +70,16 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
 
             stage('Build & deploy master & support branch') {
                 when {
-                    anyOf{
+                    anyOf {
                         branch 'master'
                         branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
                     }
-                    not { expression { params.RELEASE } }
+                    not {
+                        anyOf {
+                            expression { params.RELEASE }
+                            expression { params.HOTFIX }
+                        }
+                    }
                 }
                 steps {
                     sh "mvn ${mavenArgs} clean deploy"
@@ -111,7 +116,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 steps {
 //                 release {
                     sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion}"
-                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false \\\"-DpostHotfixGoals=deploy ${mavenArgs} -Dverbose=true\\\""
+                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false '-DpostHotfixGoals=deploy ${mavenArgs} -Dverbose=true'"
 //                 }
                 }
             }
