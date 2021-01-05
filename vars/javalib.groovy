@@ -102,8 +102,8 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
                 steps {
 //                 release {
-                    sh "mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement}"
-                    sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} \\\"-DpostReleaseGoals=deploy ${mavenArgs} -Dverbose=true\\\""
+                    sh "mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true"
+                    sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true \\\"-DpostReleaseGoals=deploy ${mavenArgs} \\\""
 //                 }
                 }
             }
@@ -115,8 +115,8 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
                 steps {
 //                 release {
-                    sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion}"
-                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false '-DpostHotfixGoals=deploy ${mavenArgs} -Dverbose=true'"
+                    sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion} -Dverbose=true"
+                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false -Dverbose=true \\\"-DpostHotfixGoals=${mavenArgs} -DskipTests deploy versions:set -DnextSnapshot=true -DoldVersion='*' -DgroupId='*' -DartifactId='*' -DprocessAllModules=true\\\""
 //                 }
                 }
             }
