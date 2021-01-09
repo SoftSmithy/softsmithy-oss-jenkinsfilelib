@@ -104,7 +104,6 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 }
                 steps {
 //                 release {
-                    sh "mvn ${mavenArgs} help:effective-pom"
                     sh "mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true"
                     sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true '-DpostReleaseGoals=${mavenArgs} -DskipTests deploy'"
 //                 }
