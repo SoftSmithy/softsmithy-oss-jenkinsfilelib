@@ -1,5 +1,7 @@
 def call(ProjectType projectType, String mavenVersion, String javaVersion) {
     def mavenArgs = "-e -B -Dmaven.test.failure.ignore=true -DperformRelease=true"
+    def supportBranchPattern = "support\\/release-\\d+.*"
+    def junitTestResults = 'target/surefire-reports/**/*.xml'
 
     pipeline {
         agent any
@@ -50,7 +52,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     not {
                         anyOf{
                             branch 'master'
-                            branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
+                            branch pattern: $ { supportBranchPattern }, comparator: "REGEXP"
                         }
                     }
                 }
@@ -61,7 +63,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     success {
                         script {
                             if (projectType.isContainingJavaSourceFiles()) {
-                                junit allowEmptyResults: true, testResults: 'target/surefire-reports/**/*.xml'
+                                junit allowEmptyResults: true, testResults: $ { junitTestResults }
                             }
                         }
                     }
@@ -72,7 +74,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 when {
                     anyOf {
                         branch 'master'
-                        branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
+                        branch pattern: $ { supportBranchPattern }, comparator: "REGEXP"
                     }
                     not {
                         anyOf {
@@ -88,7 +90,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     success {
                         script {
                             if (projectType.isContainingJavaSourceFiles()) {
-                                junit allowEmptyResults: true, testResults: 'target/surefire-reports/**/*.xml'
+                                junit allowEmptyResults: true, testResults: $ { junitTestResults }
                             }
                         }
                     }
@@ -103,14 +105,14 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 steps {
 //                 release {
                     sh "mvn ${mavenArgs} gitflow:release-start -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true"
-                    sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true \\\"-DpostReleaseGoals=deploy ${mavenArgs} \\\""
+                    sh "mvn ${mavenArgs} gitflow:release-finish -DversionDigitToIncrement=${versionDigitToIncrement} -Dverbose=true '-DpostReleaseGoals=${mavenArgs} -DskipTests deploy'"
 //                 }
                 }
             }
 
             stage('Hotfix') {
                 when {
-                    branch pattern: "support\\/release-\\d+.*", comparator: "REGEXP"
+                    branch pattern: $ { supportBranchPattern }, comparator: "REGEXP"
                     expression { params.HOTFIX }
                 }
                 steps {
