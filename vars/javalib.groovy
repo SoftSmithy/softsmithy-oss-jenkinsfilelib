@@ -52,7 +52,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     not {
                         anyOf{
                             branch 'master'
-                            branch pattern: $ { supportBranchPattern }, comparator: "REGEXP"
+                            branch pattern: "${supportBranchPattern}", comparator: "REGEXP"
                         }
                     }
                 }
@@ -63,7 +63,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     success {
                         script {
                             if (projectType.isContainingJavaSourceFiles()) {
-                                junit allowEmptyResults: true, testResults: $ { junitTestResults }
+                                junit allowEmptyResults: true, testResults: "${junitTestResults}"
                             }
                         }
                     }
@@ -74,7 +74,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 when {
                     anyOf {
                         branch 'master'
-                        branch pattern: $ { supportBranchPattern }, comparator: "REGEXP"
+                        branch pattern: "${supportBranchPattern}", comparator: "REGEXP"
                     }
                     not {
                         anyOf {
@@ -90,7 +90,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     success {
                         script {
                             if (projectType.isContainingJavaSourceFiles()) {
-                                junit allowEmptyResults: true, testResults: $ { junitTestResults }
+                                junit allowEmptyResults: true, testResults: "${junitTestResults}"
                             }
                         }
                     }
@@ -112,7 +112,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
 
             stage('Hotfix') {
                 when {
-                    branch pattern: $ { supportBranchPattern }, comparator: "REGEXP"
+                    branch pattern: "${supportBranchPattern}", comparator: "REGEXP"
                     expression { params.HOTFIX }
                 }
                 steps {
