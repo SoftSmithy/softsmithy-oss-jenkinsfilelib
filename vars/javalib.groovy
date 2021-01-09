@@ -118,6 +118,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                     sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion} -Dverbose=true"
                     sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false -Dverbose=true '-DpostHotfixGoals=${mavenArgs} -DskipTests deploy'"
                     sh "mvn ${mavenArgs} versions:set -DnextSnapshot=true -DoldVersion=\'*\' -DgroupId=\'*\' -DartifactId=\'*\' -DprocessAllModules=true"
+                    sh "mvn ${mavenArgs} versions:commit"
                     sh "git add ."
                     sh "git commit -m'next SNAPSHOT version'"
                     sh "git push"
