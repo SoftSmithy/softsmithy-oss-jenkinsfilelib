@@ -116,7 +116,7 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
                 steps {
 //                 release {
                     sh "mvn ${mavenArgs} gitflow:hotfix-start -DfromBranch=${hotfixFromBranch} -DhotfixVersion=${hotfixVersion} -Dverbose=true"
-                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false -Dverbose=true \\\"-DpostHotfixGoals=${mavenArgs} -DskipTests deploy versions:set -DnextSnapshot=true -DoldVersion='*' -DgroupId='*' -DartifactId='*' -DprocessAllModules=true\\\""
+                    sh "mvn ${mavenArgs} gitflow:hotfix-finish -DhotfixVersion=${hotfixFromBranch}/${hotfixVersion} -DfetchRemote=false -Dverbose=true '-DpostHotfixGoals=${mavenArgs} -DskipTests deploy versions:set -DnextSnapshot=true -DoldVersion=\'*\' -DgroupId=\'*\' -DartifactId='*' -DprocessAllModules=true'"
 //                 }
                 }
             }
