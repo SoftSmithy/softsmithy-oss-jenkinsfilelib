@@ -7,7 +7,7 @@ An shared libriary which can be used in *Jenkinsfiles*.
 ```groovy
 @Library('softsmithy-oss-jenkinsfilelib') _
 
-javalib(ProjectType.POM, 'Apache Maven 3.6', 'Java SE 11')
+javalib(ProjectType.JAVA_LIB, 'Apache Maven 3.6', 'Java SE 11')
 ```
 
 **Note**: The exact parameter values depend on your Jenkins configuration.
