@@ -15,12 +15,14 @@ def call() {
         triggers {
             pollSCM('H/10 * * * *')
         }
-        tools {
-            if (buildTool.type == BuildToolType.MAVEN) {
-                maven buildTool.version
-            }
-            if (programmingLanguage.type == ProgrammingLanguageType.JAVA) {
-                jdk programmingLanguage.version
+        script {
+            tools {
+                if (buildTool.type == BuildToolType.MAVEN) {
+                    maven buildTool.version
+                }
+                if (programmingLanguage.type == ProgrammingLanguageType.JAVA) {
+                    jdk programmingLanguage.version
+                }
             }
         }
 //        environment {
