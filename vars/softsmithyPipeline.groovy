@@ -15,8 +15,8 @@ def call() {
         triggers {
             pollSCM('H/10 * * * *')
         }
-        script {
-            tools {
+        tools {
+            script {
                 if (buildTool.type == BuildToolType.MAVEN) {
                     maven buildTool.version
                 }
@@ -67,7 +67,7 @@ def call() {
             stage('Build non-master/-support branches') {
                 when {
                     not {
-                        anyOf{
+                        anyOf {
                             branch 'master'
                             branch pattern: "${supportBranchPattern}", comparator: "REGEXP"
                         }
