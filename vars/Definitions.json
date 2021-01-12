@@ -1,0 +1,75 @@
+{
+  "$id": "http://www.drombler.org/drombler-media-core/Definitions.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "definitions": {
+    "buildTool": {
+      "$id": "/definitions/buildTool",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$id": "/definitions/buildTool/properties/type",
+          "title": "The build tool type",
+          "type": "string",
+          "enum": [
+            "MAVEN"
+          ]
+        },
+        "version": {
+          "$id": "/definitions/buildTool/properties/version",
+          "title": "The version of the build tool",
+          "description": "The version as configured in your Jenkins instance",
+          "type": "string"
+        }
+      }
+    },
+    "programmingLanguage": {
+      "$id": "/definitions/programmingLanguage",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$id": "/definitions/programmingLanguage/properties/type",
+          "title": "The programming language type",
+          "type": "string",
+          "enum": [
+            "JAVA"
+          ]
+        },
+        "version": {
+          "$id": "/definitions/programmingLanguage/properties/version",
+          "title": "The version of the programming language",
+          "description": "The version as configured in your Jenkins instance",
+          "type": "string"
+        }
+      }
+    },
+    "vcs": {
+      "$id": "/definitions/vcs",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$id": "/definitions/vcs/properties/type",
+          "title": "The VCS type",
+          "type": "string",
+          "enum": [
+            "GIT"
+          ]
+        }
+      }
+    },
+    "codeHostingPlatform": {
+      "$id": "/definitions/codeHostingPlatform",
+      "type": "object",
+      "properties": {
+        "type": {
+          "$id": "/definitions/codeHostingPlatform/properties/type",
+          "title": "The code hosting platform type",
+          "type": "string",
+          "enum": [
+            "GITHUB"
+          ]
+        }
+      }
+    }
+  }
+}

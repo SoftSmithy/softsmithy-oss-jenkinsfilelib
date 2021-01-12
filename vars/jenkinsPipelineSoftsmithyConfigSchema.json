@@ -1,0 +1,34 @@
+{
+  "$id": "https://www.softsmithy.org/softsmithy-oss-jenkinsfilelib/jenkinsPipelineSoftsmithyConfigSchema.json",
+  "type": "object",
+  "definitions": {},
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "properties": {
+    "projectType": {
+      "$id": "/properties/projectType",
+      "title": "The project type",
+      "type": "string",
+      "enum": [
+        "LIBRARY",
+        "APPLICATION",
+        "POM"
+      ]
+    },
+    "buildTool": {
+      "$id": "/properties/buildTool",
+      "$ref": "Definitions.json#/definitions/buildTool"
+    },
+    "programmingLanguage": {
+      "$id": "/properties/programmingLanguage",
+      "$ref": "Definitions.json#/definitions/programmingLanguage"
+    },
+    "vcs": {
+      "$id": "/properties/vcs",
+      "$ref": "Definitions.json#/definitions/vcs"
+    },
+    "codeHostingPlatform": {
+      "$id": "/properties/codeHostingPlatform",
+      "$ref": "Definitions.json#/definitions/codeHostingPlatform"
+    }
+  }
+}
