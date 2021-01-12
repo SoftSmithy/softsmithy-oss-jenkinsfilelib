@@ -1,7 +1,14 @@
-def call(ProjectType projectType, String mavenVersion, String javaVersion) {
+import org.softsmithy.jenkinsfilelib.config.BuildToolType
+import org.softsmithy.jenkinsfilelib.config.ProgrammingLanguageType
+
+def call() {
     def mavenArgs = "-e -B -Dmaven.test.failure.ignore=true -DperformRelease=true"
     def supportBranchPattern = "support\\/release-\\d+.*"
     def junitTestResults = 'target/surefire-reports/**/*.xml'
+    def config = readJSON file: 'jenkinsPipelineSoftsmithyConfig.json'
+    def projectType = config.projectType
+    def buildTool = config.buildTool
+    def programmingLanguage = config.programmingLanguage
 
     pipeline {
         agent any
@@ -9,9 +16,17 @@ def call(ProjectType projectType, String mavenVersion, String javaVersion) {
             pollSCM('H/10 * * * *')
         }
         tools {
-            maven mavenVersion
-            jdk javaVersion
+            if (buildTool.type == BuildToolType.MAVEN) {
+                maven buildTool.version
+            }
+            if (programmingLanguage.type == ProgrammingLanguageType.JAVA) {
+                jdk programmingLanguage.version
+            }
         }
+//        environment {
+//            AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
+//            AWS_SECRET_ACCESS_KEY = credentials('jenkins-aws-secret-access-key')
+//        }
 //     options {
 //         timestamps()
 //         ansiColor("xterm")
