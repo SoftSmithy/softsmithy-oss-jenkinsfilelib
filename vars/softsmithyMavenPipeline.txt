@@ -1,0 +1,1 @@
+A configurable Jenkins pipeline for Maven based projects.

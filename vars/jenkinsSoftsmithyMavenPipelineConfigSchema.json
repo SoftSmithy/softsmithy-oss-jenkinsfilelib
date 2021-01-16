@@ -1,5 +1,5 @@
 {
-  "$id": "https://www.softsmithy.org/softsmithy-oss-jenkinsfilelib/jenkinsPipelineSoftsmithyConfigSchema.json",
+  "$id": "https://www.softsmithy.org/softsmithy-oss-jenkinsfilelib/jenkinsSoftsmithyMavenPipelineConfigSchema.json",
   "type": "object",
   "definitions": {},
   "$schema": "http://json-schema.org/draft-07/schema#",
@@ -14,13 +14,13 @@
         "POM"
       ]
     },
-    "buildTool": {
-      "$id": "/properties/buildTool",
-      "$ref": "Definitions.json#/definitions/buildTool"
+    "maven": {
+      "$id": "/properties/maven",
+      "$ref": "Definitions.json#/definitions/maven"
     },
-    "programmingLanguage": {
-      "$id": "/properties/programmingLanguage",
-      "$ref": "Definitions.json#/definitions/programmingLanguage"
+    "java": {
+      "$id": "/properties/java",
+      "$ref": "Definitions.json#/definitions/java"
     },
     "vcs": {
       "$id": "/properties/vcs",

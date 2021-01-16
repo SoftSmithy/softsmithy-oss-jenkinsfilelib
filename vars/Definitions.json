@@ -3,42 +3,26 @@
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
   "definitions": {
-    "buildTool": {
-      "$id": "/definitions/buildTool",
+    "maven": {
+      "$id": "/definitions/maven",
       "type": "object",
       "properties": {
-        "type": {
-          "$id": "/definitions/buildTool/properties/type",
-          "title": "The build tool type",
-          "type": "string",
-          "enum": [
-            "MAVEN"
-          ]
-        },
-        "version": {
-          "$id": "/definitions/buildTool/properties/version",
-          "title": "The version of the build tool",
-          "description": "The version as configured in your Jenkins instance",
+        "installationName": {
+          "$id": "/definitions/maven/properties/installationName",
+          "title": "The installation name (version)",
+          "description": "The name (version) of the Maven installation configuration in Jenkins",
           "type": "string"
         }
       }
     },
-    "programmingLanguage": {
-      "$id": "/definitions/programmingLanguage",
+    "java": {
+      "$id": "/definitions/java",
       "type": "object",
       "properties": {
-        "type": {
-          "$id": "/definitions/programmingLanguage/properties/type",
-          "title": "The programming language type",
-          "type": "string",
-          "enum": [
-            "JAVA"
-          ]
-        },
-        "version": {
-          "$id": "/definitions/programmingLanguage/properties/version",
-          "title": "The version of the programming language",
-          "description": "The version as configured in your Jenkins instance",
+        "installationName": {
+          "$id": "/definitions/java/properties/installationName",
+          "title": "The installation name (version)",
+          "description": "The name (version) of the Java installation configuration in Jenkins",
           "type": "string"
         }
       }

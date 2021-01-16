@@ -5,7 +5,7 @@ def call() {
     def mavenArgs = "-e -B -Dmaven.test.failure.ignore=true -DperformRelease=true"
     def supportBranchPattern = "support\\/release-\\d+.*"
     def junitTestResults = 'target/surefire-reports/**/*.xml'
-    def config = readJSON file: 'jenkinsPipelineSoftsmithyConfig.json'
+    def config = readJSON file: 'jenkinsSoftsmithyMavenPipelineConfig.json'
     def projectType = config.projectType
     def buildTool = config.buildTool
     def programmingLanguage = config.programmingLanguage
