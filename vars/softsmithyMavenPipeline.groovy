@@ -1,6 +1,3 @@
-import org.softsmithy.jenkinsfilelib.config.BuildToolType
-import org.softsmithy.jenkinsfilelib.config.ProgrammingLanguageType
-
 def call() {
     def mavenArgs = "-e -B -Dmaven.test.failure.ignore=true -DperformRelease=true"
     def supportBranchPattern = "support\\/release-\\d+.*"
@@ -16,14 +13,8 @@ def call() {
             pollSCM('H/10 * * * *')
         }
         tools {
-            script {
-                if (buildTool.type == BuildToolType.MAVEN) {
-                    maven buildTool.version
-                }
-                if (programmingLanguage.type == ProgrammingLanguageType.JAVA) {
-                    jdk programmingLanguage.version
-                }
-            }
+            maven "${buildTool.version}"
+            jdk "${programmingLanguage.version}"
         }
 //        environment {
 //            AWS_ACCESS_KEY_ID     = credentials('jenkins-aws-secret-key-id')
